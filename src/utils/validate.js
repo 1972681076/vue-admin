@@ -37,3 +37,6 @@ export function validateEmail(value){
     let reg = /^[a-z0-9]{6}$/
     return !reg.test(value) ? true : false;
   }
+
+// 没有 export default 时，可以同时声明多个export，
+//文件 import 需要花括号 

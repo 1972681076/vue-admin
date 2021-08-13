@@ -59,6 +59,16 @@ module.exports = {
     hot: true, // 开启热加载
     hotOnly: false,
     proxy: null, // 设置代理
+    proxy: {
+      // '/api': {  // '/api' 等同于 "http://www.web-jshtml.cn/productapi" 老师建议换个名字，不会弄混乱
+      '/devApi': {  
+        target: "http://www.web-jshtml.cn/productapi", //API服务器的地址
+        changeOrigin: true,
+        pathRewrite: {
+          '^/devApi': ''  //将以/devApi的字符替换为空值
+        }
+      }
+    },
     overlay: { // 全屏模式下是否显示脚本错误
       warnings: true,
       errors: true
