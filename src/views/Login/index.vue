@@ -207,7 +207,7 @@
          refs.loginForm.resetFields();        //3.0
       })
       // 更新按钮状态
-      const updataButtonStatus= ((params) => {
+      const updateButtonStatus= ((params) => {
         codeButtonStatus.status = params.status,
         codeButtonStatus.text = params.text
       })
@@ -219,11 +219,11 @@
         // 进行提示
         if(ruleForm.username == '') {
           root.$message.error('邮箱不能为空！');
-          return false
+          return false;
         }
         if(validateEmail(ruleForm.username)) {
           root.$message.error('邮箱格式不正确！');
-          return false
+          return false;
         }
         // 获取验证码
         let requestData = {
@@ -231,7 +231,7 @@
           module: model.value
         }
         //修改获取验证码按钮状态
-        updataButtonStatus({
+        updateButtonStatus({
           status: true,
           text: '发送中'
         })
@@ -283,12 +283,25 @@
           // password: sha1(ruleForm.password),
           code: ruleForm.code
         }
-        Login(requestData).then(response => {
+        root.$store.dispatch('app/login', requestData).then(response => {
           console.log('登录成功');
           console.log(response);
-        }).catch(error => {
-
+          // 页面跳转 this.$router.push('/home')
+          root.$router.push({
+            name: 'Console'
+          })
+        }).catch(error =>{
+          console.log(error);
         })
+
+        // Login(requestData).then(response => {
+        //   console.log('登录成功');
+        //   console.log(response);
+        //   //页面跳转 this.$router.push('/home')
+        //   root.$router.push({
+        //     name: 'Console'
+        //   })
+        // }).catch(error => {})
       })
       /**
        * 注册
@@ -330,10 +343,10 @@
         let time = number
         timer.value = setInterval(() => {
           time--
-          console.log('time--');
+          // console.log('time--');
           if(time === 0) {
             clearInterval(timer.value)
-            updataButtonStatus({
+            updateButtonStatus({
               status: false,
               text: '再次获取'
             })
@@ -347,12 +360,12 @@
        */
       const clearCountDown = (() => {
         //还原验证码按钮默认状态
-        updataButtonStatus({
+        updateButtonStatus({
           status: false,
           text: '获取验证码'
         })
         //清除倒计时
-        clearInterval(timer.value)
+        clearInterval(timer.value);
       })
       
       /**
@@ -362,7 +375,6 @@
       onMounted(() => {
 
       })
-
 
       return {
         menuTab,

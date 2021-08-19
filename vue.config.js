@@ -10,14 +10,24 @@ module.exports = {
    * webpack配置,see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
    **/
   chainWebpack: (config) => {
+    const svgRule = config.module.rule( "svg");
+    svgRule.uses.clear();
+    svgRule
+    .use("svg-sprite-loader")
+    .loader("svg-sprite-loader")
+    .options({
+      symbolId: "icon-[name]",
+      include:["./src/icons"]
+    });
   },
   configureWebpack: (config) => {
     config.resolve = { // 配置解析别名
       extensions: ['.js', '.json', '.vue'],
       alias: {
+        'vue': 'vue/dist/vue.js',
         '@': path.resolve(__dirname, './src'),
-        // 'public': path.resolve(__dirname, './public'),
         '@c': path.resolve(__dirname, './src/components'),
+                // 'public': path.resolve(__dirname, './public'),
         // 'common': path.resolve(__dirname, './src/common'),
         // 'api': path.resolve(__dirname, './src/api'),
         // 'views': path.resolve(__dirname, './src/views'),
@@ -62,7 +72,8 @@ module.exports = {
     proxy: {
       // '/api': {  // '/api' 等同于 "http://www.web-jshtml.cn/productapi" 老师建议换个名字，不会弄混乱
       '/devApi': {  
-        target: "http://www.web-jshtml.cn/productapi", //API服务器的地址
+        // http://old.web-jshtml.cn/vue_admin_api
+        target: "http://old.web-jshtml.cn/vue_admin_api/token", //API服务器的地址
         changeOrigin: true,
         pathRewrite: {
           '^/devApi': ''  //将以/devApi的字符替换为空值
